@@ -1,0 +1,26 @@
+name: Nexum Vault iOS CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+jobs:
+  swift-package:
+    name: Swift package tests
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show toolchain
+        run: |
+          xcodebuild -version
+          swift --version
+
+      - name: Verify project inputs
+        run: bash verify-build-ready.sh
+
+      - name: Run tests
+        run: swift test
