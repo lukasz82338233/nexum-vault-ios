@@ -141,9 +141,23 @@ final class FalconCryptoTests: XCTestCase {
         let canonical2 = try CanonicalJSON.canonicalize(dict)
         XCTAssertEqual(canonical1, canonical2)
         
-        let data = Data(canonical1.utf8)
-        let parsed = try JSONSerialization.jsonObject(with: data) as? [String: Any]
-        let keys = parsed.map { Array($0.keys) } ?? []
-        XCTAssertEqual(keys, keys.sorted())
+        let expectedKeyOrder = [
+            "\"challengeId\"",
+            "\"expiresAt\"",
+            "\"issuedAt\"",
+            "\"nonce\"",
+            "\"origin\"",
+            "\"purpose\"",
+            "\"type\"",
+            "\"version\""
+        ]
+        var searchStart = canonical1.startIndex
+        for key in expectedKeyOrder {
+            guard let range = canonical1.range(of: key, range: searchStart..<canonical1.endIndex) else {
+                XCTFail("Expected key \(key) after index \(searchStart) in \(canonical1)")
+                return
+            }
+            searchStart = range.upperBound
+        }
     }
 }

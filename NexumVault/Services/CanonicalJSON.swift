@@ -3,7 +3,7 @@ import Foundation
 enum CanonicalJSON {
     static func canonicalize(_ object: Any) throws -> String {
         let sorted = try sortKeys(object)
-        let data = try JSONSerialization.data(withJSONObject: sorted, options: [])
+        let data = try JSONSerialization.data(withJSONObject: sorted, options: [.sortedKeys])
         guard let string = String(data: data, encoding: .utf8) else {
             throw CanonicalJSONError.encodingFailed
         }
@@ -12,7 +12,7 @@ enum CanonicalJSON {
     
     static func canonicalizeData(_ object: Any) throws -> Data {
         let sorted = try sortKeys(object)
-        return try JSONSerialization.data(withJSONObject: sorted, options: [])
+        return try JSONSerialization.data(withJSONObject: sorted, options: [.sortedKeys])
     }
     
     private static func sortKeys(_ object: Any) throws -> Any {
