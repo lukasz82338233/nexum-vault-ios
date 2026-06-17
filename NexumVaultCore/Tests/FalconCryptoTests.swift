@@ -143,7 +143,7 @@ final class FalconCryptoTests: XCTestCase {
         
         let data = Data(canonical1.utf8)
         let parsed = try JSONSerialization.jsonObject(with: data) as? [String: Any]
-        let keys = Array(parsed?.keys ?? [])
+        let keys = parsed.map { Array($0.keys) } ?? []
         XCTAssertEqual(keys, keys.sorted())
     }
 }

@@ -7,8 +7,7 @@ let package = Package(
     targets: [
         .target(
             name: "NexumVaultCore",
-            path: "NexumVaultCore/Sources",
-            exclude: ["FalconC"]
+            path: "NexumVaultCore/Sources"
         ),
         .testTarget(
             name: "NexumVaultCoreTests",
